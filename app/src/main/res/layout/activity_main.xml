@@ -11,6 +11,14 @@
      android:layout_height="wrap_content"
      android:background="#44eeff"
      android:id="@+id/toolbar">
+     
+     <Button
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="返回"
+         android:onClick="back"
+         android:id="@+id/bt_back"
+         />
 
      <TextView
          android:layout_width="wrap_content"
@@ -18,7 +26,7 @@
          android:layout_centerInParent="true"
          android:id="@+id/titleposition"
          android:layout_gravity="center"
-         android:textSize="25px"
+         android:textSize="60px"
          />
  </android.support.v7.widget.Toolbar>
     <ListView

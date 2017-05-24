@@ -1,4 +1,3 @@
-/*
 package gson;
 
 public class AQI {
@@ -14,4 +13,3 @@ public class AQI {
     }
 
 }
-*/

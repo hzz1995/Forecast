@@ -15,7 +15,7 @@ public class SettingSave {
         bundle.putInt("selectLevel",sp.getInt("selectLevel",-1));
         bundle.putInt("provinceId",sp.getInt("provinceId",-1));
         bundle.putInt("cityId",sp.getInt("cityId",-1));
-        bundle.putInt("county",sp.getInt("countyId",-1));
+        bundle.putString("weatherId",sp.getString("weatherId","error"));
         bundle.putString("weather",sp.getString("weather","error"));
         return bundle;
     }
@@ -43,10 +43,10 @@ public class SettingSave {
         editor.commit();
         return true;
     }
-    public static boolean saveSelectCounty(Context context,int countyId){
+    public static boolean saveSelectWeatherId(Context context,String weatherId){
         SharedPreferences sp = context.getSharedPreferences("data",context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putInt("countyId",countyId);
+        editor.putString("weatherId",weatherId);
         editor.commit();
         return true;
     }

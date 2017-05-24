@@ -28,13 +28,13 @@ public class ProvinceDao {
     }
 
     public void close(){
-        db.close();
-        helper.close();
+      /*  db.close();
+        helper.close();*/
     }
-    public long add(String provincename,int provincecode){
+    public long add(Province province){
         ContentValues values = new ContentValues();
-        values.put("provincename",provincename);
-        values.put("provincecode",provincecode);
+        values.put("provincename",province.getProvinceName());
+        values.put("provincecode",province.getProvinceCode());
         long id = db.insert(table,null,values);
         close();
         return id;
@@ -43,9 +43,10 @@ public class ProvinceDao {
     //查询所有省份
     public List<Province> query(){
         Cursor cursor = db.rawQuery("select * from province", null);
-        Province province = new Province();
+
         List<Province> list = new ArrayList();
         while (cursor.moveToNext()) {
+            Province province = new Province();
             int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
             String name = cursor.getString(1);//获取第二列的值
             int code = cursor.getInt(2);//获取第三列的值
@@ -54,7 +55,12 @@ public class ProvinceDao {
             province.setProvinceCode(code);
             list.add(province);
         }
+        cursor.close();
         return list;
+    }
+    public int DelUserInfo() {
+        int id = db.delete(table,null,null);
+        return id;
     }
 
 }

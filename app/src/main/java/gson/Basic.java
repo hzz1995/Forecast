@@ -1,4 +1,3 @@
-/*
 package gson;
 
 import com.google.gson.annotations.SerializedName;
@@ -21,4 +20,3 @@ public class Basic {
     }
 
 }
-*/

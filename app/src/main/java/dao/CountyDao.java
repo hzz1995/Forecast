@@ -26,14 +26,14 @@ public class CountyDao {
     }
 
     public void close(){
-        db.close();
-        helper.close();
+        /*db.close();
+        helper.close();*/
     }
-    public long add(String countyname,int weatherid,int cityid){
+    public long add(County county){
         ContentValues values = new ContentValues();
-        values.put("countyname",countyname);
-        values.put("weatherid",weatherid);
-        values.put("provinceid",cityid);
+        values.put("countyname",county.getCountyName());
+        values.put("weatherid",county.getWeatherId());
+        values.put("cityid",county.getCityId());
         long id = db.insert(table,null,values);
         close();
         return id;
@@ -42,9 +42,29 @@ public class CountyDao {
 
     public List<County> query(){
         Cursor cursor = db.rawQuery("select * from county", null);
-        County county = new County();
+
         List<County> list = new ArrayList();
         while (cursor.moveToNext()) {
+            County county = new County();
+            int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
+            String name = cursor.getString(1);//获取第二列的值
+            String weatherid = cursor.getString(2);//获取第三列的值
+            int provinceid = cursor.getInt(3);
+            county.setId(id);
+            county.setCountyName(name);
+            county.setWeatherId(weatherid);
+            county.setCityId(provinceid);
+            list.add(county);
+        }
+        return list;
+    }
+
+    public List<County> queryOne(int citycode){
+        Cursor cursor = db.rawQuery("select * from county where cityid=?", new String[]{String.valueOf(citycode)});
+
+        List<County> list = new ArrayList();
+        while (cursor.moveToNext()) {
+            County county = new County();
             int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
             String name = cursor.getString(1);//获取第二列的值
             String weatherid = cursor.getString(2);//获取第三列的值

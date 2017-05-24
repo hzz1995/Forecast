@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.forecast.Main2Activity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/toolbar1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择"/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="60px"
+        android:id="@+id/dd"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mytime"/>
+    </android.support.v7.widget.Toolbar>
+
+    <!--温度一行-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar1"
+        android:background="#88ffffff"
+        android:id="@+id/first">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:textSize="60dp"
+            android:id="@+id/wendu"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wendu"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:textSize="40dp"
+            android:id="@+id/tianqi"/>
+    </RelativeLayout>
+
+    <!--预报-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/first"
+        android:id="@+id/second"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:id="@+id/title1"/>
+        <!--一个星期的天气预报-->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:background="#88eeeeee"
+    android:layout_below="@+id/title1"
+    android:id="@+id/fir_line">
+<!--firstday-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_weight="0.25"
+        android:id="@+id/fir_1"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_weight="0.25"
+        android:id="@+id/fir_2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_weight="0.25"
+        android:id="@+id/fir_3"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:textSize="20dp"
+        android:id="@+id/fir_4"/>
+</LinearLayout>
+    </RelativeLayout>
+
+    <!--空气质量-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/second"
+            android:id="@+id/third">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:id="@+id/title2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title2"
+                android:weightSum="1"
+                android:background="#88ffffff"
+                android:id="@+id/sec_line">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="29dp"
+                    android:layout_weight="0.5"
+                    android:id="@+id/aqi"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textSize="29dp"
+                    android:id="@+id/pm2.5"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+</RelativeLayout>

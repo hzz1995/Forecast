@@ -17,18 +17,19 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
             db.execSQL("create table if not exists province (" +
                     "id  INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "provincename TEXT,"+
-                    "provincecode INTERGER"+
+                    "provincecode INTEGER"+
                     ")");
-            db.execSQL("create table if not exists city"+
-            "(id  INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "cityename TEXT,"+
-                    "citycode INTERGER"+
+            db.execSQL("create table if not exists city("+
+            "id  INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "cityname TEXT,"+
+                    "citycode INTEGER,"+
+                    "provinceid INTEGER"+
                     ")");
-            db.execSQL("create table if not exists county"+
-                    "(id  INTEGER PRIMARY KEY AUTOINCREMENT," +
+            db.execSQL("create table if not exists county("+
+                    "id  INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "countyname TEXT,"+
                     "weatherid TEXT,"+
-                    "cityid INTERGER"+
+                    "cityid INTEGER"+
                     ")");
 
 
@@ -36,4 +37,7 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){
         db.execSQL("alter table person add account varchar(20)");
     }
+  /*  public static void onDelete(Context context){
+        context.deleteDatabase("weather.db");
+    }*/
 }

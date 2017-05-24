@@ -1,4 +1,3 @@
-/*
 package gson;
 
 import com.google.gson.annotations.SerializedName;
@@ -23,4 +22,3 @@ public class Suggestion {
         public String info;
     }
 }
-*/

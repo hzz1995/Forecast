@@ -1,7 +1,6 @@
-/*
 package gson;
 
-import com.google.gson.annotations.*;
+import com.google.gson.annotations.SerializedName;
 
 public class Forecast {
 
@@ -29,4 +28,3 @@ public class Forecast {
     }
 
 }
-*/

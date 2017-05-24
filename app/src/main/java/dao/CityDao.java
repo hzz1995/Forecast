@@ -27,14 +27,14 @@ public class CityDao {
     }
 
     public void close(){
-        db.close();
-        helper.close();
+       /* db.close();
+        helper.close();*/
     }
-    public long add(String cityname,int citycode,int provinceid){
+    public long add(City city){
         ContentValues values = new ContentValues();
-        values.put("cityname",cityname);
-        values.put("citycode",citycode);
-        values.put("provinceid",provinceid);
+        values.put("cityname",city.getCityName());
+        values.put("citycode",city.getCityCode());
+        values.put("provinceid",city.getProvinceId());
         long id = db.insert(table,null,values);
         close();
         return id;
@@ -43,9 +43,29 @@ public class CityDao {
 
     public List<City> query(){
         Cursor cursor = db.rawQuery("select * from city", null);
-        City city = new City();
+
         List<City> list = new ArrayList();
         while (cursor.moveToNext()) {
+            City city = new City();
+            int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
+            String name = cursor.getString(1);//获取第二列的值
+            int code = cursor.getInt(2);//获取第三列的值
+            int provinceid = cursor.getInt(3);
+            city.setId(id);
+            city.setCityName(name);
+            city.setCityCode(code);
+            city.setProvinceId(provinceid);
+            list.add(city);
+        }
+        return list;
+    }
+
+    public List<City> queryOne(int provincecode){
+        Cursor cursor = db.rawQuery("select * from city where provinceid=?", new String[]{String.valueOf(provincecode)});
+
+        List<City> list = new ArrayList();
+        while (cursor.moveToNext()) {
+            City city = new City();
             int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
             String name = cursor.getString(1);//获取第二列的值
             int code = cursor.getInt(2);//获取第三列的值
