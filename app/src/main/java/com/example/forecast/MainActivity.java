@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.CityDao;
@@ -39,8 +40,7 @@ public class MainActivity extends AppCompatActivity{
     final String path="http://guolin.tech/api/china";
     final String path1="http://guolin.tech/api/china/";
 
-    int layout = 0;
-    private int Level0=0;
+    //设置层级。
     private int Level1=1;
     private int Level2=2;
     private int Level3=3;
@@ -54,7 +54,14 @@ public class MainActivity extends AppCompatActivity{
 
         //WeatherDBHelper.onDelete(this);
 
-
+       SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
+        if(!sp.getString("weather","error").equals("error")){
+            Bundle bundle = SettingSave.getSelect(context);
+            Intent intent = new Intent();
+            intent.setClassName("com.example.forecast","com.example.forecast.Main2Activity");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
 
 
 
@@ -64,15 +71,14 @@ public class MainActivity extends AppCompatActivity{
         tool.setTitle("");
         textview.setText("省份");
         setSupportActionBar(tool);
-
+        SettingSave.saveSelectLevel(context,Level1);
         //判断数据库是否有数据。有的话，转成字符串数组，没有则从网络获取
         //创建省、市、镇的dao操作。
         ProvinceDao dao = new ProvinceDao(this);
-        //dao.DelUserInfo();  //测试用
+      //  dao.DelUserInfo();  //测试用//
+
         list = dao.query();
-        final String[] list3 = new String[list.size()];
-        for(int i = 0;i<list.size();i++)
-        list3[i]= list.get(i).getProvinceName();
+
         if(list.size()==0){
             new Thread(new Runnable() {
                 @Override
@@ -85,18 +91,23 @@ public class MainActivity extends AppCompatActivity{
         }
         else {
             //数据库中有数据。
+            final String[] list3 = new String[list.size()];
+            for(int i = 0;i<list.size();i++) list3[i]= list.get(i).getProvinceName();
              ListView(list3);
         }
 
     }
 
+    //获取选中省的市
     public void Create1(final int index){
 
-        SettingSave.saveSelectProvince(context,index);
+
 
         CityDao dao1 = new CityDao(this);
         //查询城市
         list1=dao1.queryOne(index);
+        SettingSave.saveSelectProvince(context,index);
+        SettingSave.saveSelectLevel(context,Level2);
         //将城市转换成数组
         final String[] citylist = new String[list1.size()];
         for(int i = 0;i<list1.size();i++)
@@ -114,14 +125,14 @@ public class MainActivity extends AppCompatActivity{
             ListView(citylist);
         }
     }
-
+//获取县级市及weatherid
     public void Create2(final int index){
         SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
         CityDao dao = new CityDao(this);
 
        final int index1=dao.queryOne(sp.getInt("provinceId",-1)).get(index-1).getCityCode();
        SettingSave.saveSelectCity(context,index1);
-
+        SettingSave.saveSelectLevel(context,Level3);
         CountyDao dao2 = new CountyDao(this);
         //查询县级市
         list2=dao2.queryOne(index1);
@@ -142,9 +153,10 @@ public class MainActivity extends AppCompatActivity{
             ListView(countylist);
         }
     }
+
     //将所有数据显示在LISTviEW中
 public  void ListView(final String[] list3){
-    layout++;
+
     //将所有数据适配到listview中
     lv = (ListView) findViewById(R.id.listview);
     adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, list3);
@@ -162,7 +174,8 @@ public  void ListView(final String[] list3){
             textview.setText(list3[position]);
             setSupportActionBar(tool);
             int index =position+1;
-
+            SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
+            int layout = sp.getInt("level",-1);
 
 
             switch (layout){
@@ -284,28 +297,50 @@ public  void ListView(final String[] list3){
     }
 
 
-   /* public void back(View view){
+   public void back(View view){
+
+       int layout = getSharedPreferences("data",MODE_PRIVATE).getInt("level",-1);
+       int provinceid = getSharedPreferences("data",MODE_PRIVATE).getInt("provinceId",-1);
+       int cityid = getSharedPreferences("data",MODE_PRIVATE).getInt("cityId",-1);
         if(layout==1){
             android.os.Process.killProcess(android.os.Process.myPid());
         }
         else if(layout==2){
+
+            //返回省份
+            final Toolbar tool = (Toolbar)findViewById(R.id.toolbar);
+            TextView textview = (TextView)findViewById(R.id.titleposition);
+            tool.setTitle("");
+            textview.setText("省份");
+            setSupportActionBar(tool);
             ProvinceDao dao = new ProvinceDao(this);
             list = dao.query();
+            SettingSave.saveSelectLevel(context,Level1);
             final String[] list3 = new String[list.size()];
             for(int i = 0;i<list.size();i++)
             list3[i]= list.get(i).getProvinceName();
             ListView(list3);
         }
         else{
-            CityDao dao1 = new CityDao(this);
+            ProvinceDao dao1 = new ProvinceDao(this);
+            List<Province> list = new ArrayList<>();
             //查询城市
-            list1=dao1.query();
+            list=dao1.queryOneBycode(provinceid);
+            final Toolbar tool = (Toolbar)findViewById(R.id.toolbar);
+            TextView textview = (TextView)findViewById(R.id.titleposition);
+            tool.setTitle("");
+            textview.setText(list.get(0).getProvinceName());
+            setSupportActionBar(tool);
+            CityDao dao = new CityDao(this);
+            List<City> list1 = new ArrayList<>();
+            list1= dao.queryOne(list.get(0).getProvinceCode());
+            SettingSave.saveSelectLevel(context,Level2);
             //将城市转换成数组
             final String[] citylist = new String[list1.size()];
             for(int i = 0;i<list1.size();i++)
-                citylist[i]= list1.get(i).getCityName();
+            citylist[i]= list1.get(i).getCityName();
             ListView(citylist);
         }
 
-    }*/
+    }
 }

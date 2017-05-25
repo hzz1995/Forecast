@@ -58,6 +58,24 @@ public class ProvinceDao {
         cursor.close();
         return list;
     }
+
+    public List<Province> queryOneBycode(int provincecode){
+        Cursor cursor = db.rawQuery("select * from province where provincecode=?", new String[]{String.valueOf(provincecode)});
+
+        List<Province> list = new ArrayList();
+        while (cursor.moveToNext()) {
+            Province province = new Province();
+            int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
+            String name = cursor.getString(1);//获取第二列的值
+            int code = cursor.getInt(2);//获取第三列的值
+            province.setId(id);
+            province.setProvinceName(name);
+            province.setProvinceCode(code);
+            list.add(province);
+        }
+        cursor.close();
+        return list;
+    }
     public int DelUserInfo() {
         int id = db.delete(table,null,null);
         return id;

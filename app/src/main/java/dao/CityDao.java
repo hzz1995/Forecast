@@ -78,4 +78,22 @@ public class CityDao {
         }
         return list;
     }
+    public List<City> queryOnebyCitycode(int citycode){
+        Cursor cursor = db.rawQuery("select * from city where citycode=?", new String[]{String.valueOf(citycode)});
+
+        List<City> list = new ArrayList();
+        while (cursor.moveToNext()) {
+            City city = new City();
+            int id = cursor.getInt(0); //获取第一列的值,第一列的索引从0开始
+            String name = cursor.getString(1);//获取第二列的值
+            int code = cursor.getInt(2);//获取第三列的值
+            int provinceid = cursor.getInt(3);
+            city.setId(id);
+            city.setCityName(name);
+            city.setCityCode(code);
+            city.setProvinceId(provinceid);
+            list.add(city);
+        }
+        return list;
+    }
 }

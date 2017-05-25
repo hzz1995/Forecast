@@ -12,7 +12,7 @@ public class SettingSave {
     public static Bundle getSelect(Context context){
         SharedPreferences sp = context.getSharedPreferences("data",context.MODE_PRIVATE);
         Bundle bundle = new Bundle();
-        bundle.putInt("selectLevel",sp.getInt("selectLevel",-1));
+        bundle.putInt("level",sp.getInt("level",-1));
         bundle.putInt("provinceId",sp.getInt("provinceId",-1));
         bundle.putInt("cityId",sp.getInt("cityId",-1));
         bundle.putString("weatherId",sp.getString("weatherId","error"));
@@ -50,5 +50,14 @@ public class SettingSave {
         editor.commit();
         return true;
     }
+
+    public static boolean saveSelectLevel(Context context,int level){
+        SharedPreferences sp = context.getSharedPreferences("data",context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("level",level);
+        editor.commit();
+        return true;
+    }
+
 
 }
