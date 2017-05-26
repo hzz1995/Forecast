@@ -3,10 +3,15 @@ package com.example.forecast;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +28,6 @@ import util.SettingSave;
 public class Main2Activity extends AppCompatActivity {
 
     Context context = this;
-    TextView tv;//刷新提示
     SwipeRefreshLayout swipeRefreshLayout;
 
     //字符串拼接
@@ -35,7 +39,6 @@ public class Main2Activity extends AppCompatActivity {
     TextView title1,fisrt_day1,fisrt_day2,fisrt_day3,fisrt_day4;//小标题
     TextView title2,aqi,pm;
     TextView title3,ssd,xc,cx;//舒适度，洗车指数，运行建议
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +46,12 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         final JSONParse json = new JSONParse(context);
 
-        //tv = (TextView)findViewById(R.id.textView1);
+        SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
+        //SettingSave.saveSelectLevel(context,-1);//清空层
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
         //设置刷新时动画的颜色，可以设置4个
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        SharedPreferences sp = getSharedPreferences("data",MODE_PRIVATE);
+
         final String weatherid = sp.getString("weatherId","error");
             new Thread(new Runnable() {
                 @Override
@@ -63,6 +67,7 @@ public class Main2Activity extends AppCompatActivity {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
+
         }
 
 
@@ -142,6 +147,15 @@ public class Main2Activity extends AppCompatActivity {
             }
         };
         return callback;
+    }
+    public void selectCounty(View view){
+
+        SettingSave.saveSelectLevel(context,4);
+        Intent intent = new Intent();
+        Bundle bundle = SettingSave.getSelect(context);
+        intent.setClassName("com.example.forecast","com.example.forecast.MainActivity");
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 }

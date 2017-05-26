@@ -54,50 +54,66 @@ public class MainActivity extends AppCompatActivity{
 
         //WeatherDBHelper.onDelete(this);
 
-       SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
-        if(!sp.getString("weather","error").equals("error")){
+        SharedPreferences sp = context.getSharedPreferences("data", MODE_PRIVATE);
+        if (!sp.getString("weather", "error").equals("error") && sp.getInt("level", -1) != 4) {
             Bundle bundle = SettingSave.getSelect(context);
             Intent intent = new Intent();
-            intent.setClassName("com.example.forecast","com.example.forecast.Main2Activity");
+            intent.setClassName("com.example.forecast", "com.example.forecast.Main2Activity");
             intent.putExtras(bundle);
             startActivity(intent);
-        }
+        } else if (sp.getInt("level", -1) == 4) {
+            int cityid = sp.getInt("cityId", -1);
+            CityDao dao1 = new CityDao(this);
+            list1 = dao1.queryOnebyCitycode(cityid);
+            final Toolbar tool = (Toolbar) findViewById(R.id.toolbar);
+            SettingSave.saveSelectLevel(context,Level3);
+            TextView textview = (TextView) findViewById(R.id.titleposition);
+            tool.setTitle("");
+            textview.setText(list1.get(0).getCityName());
+            setSupportActionBar(tool);
 
 
+            CountyDao dao2 = new CountyDao(this);
+            list2 = dao2.queryOne(cityid);
+            final String[] citylist = new String[list2.size()];
+            for (int i = 0; i < list2.size(); i++)
+                citylist[i] = list2.get(i).getCountyName();
+            ListView(citylist);
 
-        //首次进入app时设置自定义标题
-        final Toolbar tool = (Toolbar)findViewById(R.id.toolbar);
-        TextView textview = (TextView)findViewById(R.id.titleposition);
-        tool.setTitle("");
-        textview.setText("省份");
-        setSupportActionBar(tool);
-        SettingSave.saveSelectLevel(context,Level1);
-        //判断数据库是否有数据。有的话，转成字符串数组，没有则从网络获取
-        //创建省、市、镇的dao操作。
-        ProvinceDao dao = new ProvinceDao(this);
-      //  dao.DelUserInfo();  //测试用//
+        } else {
 
-        list = dao.query();
+            //首次进入app时设置自定义标题
+            final Toolbar tool = (Toolbar) findViewById(R.id.toolbar);
+            TextView textview = (TextView) findViewById(R.id.titleposition);
+            tool.setTitle("");
+            textview.setText("省份");
+            setSupportActionBar(tool);
+            SettingSave.saveSelectLevel(context, Level1);
+            //判断数据库是否有数据。有的话，转成字符串数组，没有则从网络获取
+            //创建省、市、镇的dao操作。
+            ProvinceDao dao = new ProvinceDao(this);
+            //  dao.DelUserInfo();  //测试用//
 
-        if(list.size()==0){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HttpTool.getDataByOkHttp(context,path,SetProvince());
+            list = dao.query();
+
+            if (list.size() == 0) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpTool.getDataByOkHttp(context, path, SetProvince());
                     }
-            }).start();
-            //上面的代码表示通知CPU开辟新的线程，CPU自己觉得合适时候运行该线程对应的代码，
-            //并不等待执行完新线程代码才执行下一行
-        }
-        else {
-            //数据库中有数据。
-            final String[] list3 = new String[list.size()];
-            for(int i = 0;i<list.size();i++) list3[i]= list.get(i).getProvinceName();
-             ListView(list3);
-        }
+                }).start();
+                //上面的代码表示通知CPU开辟新的线程，CPU自己觉得合适时候运行该线程对应的代码，
+                //并不等待执行完新线程代码才执行下一行
+            } else {
+                //数据库中有数据。
+                final String[] list3 = new String[list.size()];
+                for (int i = 0; i < list.size(); i++) list3[i] = list.get(i).getProvinceName();
+                ListView(list3);
+            }
 
+        }
     }
-
     //获取选中省的市
     public void Create1(final int index){
 
@@ -131,6 +147,7 @@ public class MainActivity extends AppCompatActivity{
         CityDao dao = new CityDao(this);
 
        final int index1=dao.queryOne(sp.getInt("provinceId",-1)).get(index-1).getCityCode();
+
        SettingSave.saveSelectCity(context,index1);
         SettingSave.saveSelectLevel(context,Level3);
         CountyDao dao2 = new CountyDao(this);
@@ -167,15 +184,18 @@ public  void ListView(final String[] list3){
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            //再次设置自定义标题栏
-            Toolbar tool = (Toolbar) findViewById(R.id.toolbar);
-            TextView textview = (TextView)findViewById(R.id.titleposition);
-            tool.setTitle("");
-            textview.setText(list3[position]);
-            setSupportActionBar(tool);
-            int index =position+1;
             SharedPreferences sp = context.getSharedPreferences("data",MODE_PRIVATE);
             int layout = sp.getInt("level",-1);
+            //再次设置自定义标题栏
+            if(layout!=3) {
+                Toolbar tool = (Toolbar) findViewById(R.id.toolbar);
+                TextView textview = (TextView) findViewById(R.id.titleposition);
+                tool.setTitle("");
+                textview.setText(list3[position]);
+                setSupportActionBar(tool);
+            }
+            int index =position+1;
+
 
 
             switch (layout){

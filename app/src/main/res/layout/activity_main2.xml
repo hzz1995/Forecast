@@ -19,6 +19,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="selectCounty"
+            android:id="@+id/bt_left"
             android:text="选择"/>
         <TextView
         android:layout_width="wrap_content"
@@ -33,194 +35,207 @@
             android:id="@+id/mytime"/>
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ScrollView
-            android:id="@+id/weather_layout"
+        android:layout_height="match_parent"
+        android:id="@+id/drawerlayout"
+        android:layout_gravity="start">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar1"
-            android:overScrollMode="never"
-            android:scrollbars="none">
-            <LinearLayout
+            android:layout_height="match_parent">
+            <ScrollView
+                android:id="@+id/weather_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/all"
-                >
-                        <!--温度一行-->
-                <RelativeLayout
+                android:layout_below="@+id/toolbar1"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:background="#88ffffff"
-                    android:id="@+id/first"
-                    android:layout_marginTop="26dp"
-
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/all"
+                    >
+                    <!--温度一行-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="right"
-                        android:textSize="60dp"
-                        android:id="@+id/wendu"/>
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                        android:background="#88ffffff"
+                        android:id="@+id/first"
+                        android:layout_marginTop="26dp"
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="10dp"
+                            android:layout_gravity="right"
+                            android:textSize="60dp"
+                            android:id="@+id/wendu"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/wendu"
+                            android:layout_marginRight="10dp"
+                            android:layout_gravity="right"
+                            android:textSize="40dp"
+                            android:id="@+id/tianqi"/>
+                    </RelativeLayout>
+                    <!--预报-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/wendu"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="right"
-                        android:textSize="40dp"
-                        android:id="@+id/tianqi"/>
-                </RelativeLayout>
-                <!--预报-->
+                        android:layout_below="@+id/first"
+                        android:id="@+id/second"
+                        >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textSize="30dp"
+                            android:id="@+id/title1"/>
+                        <!--一个星期的天气预报-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1"
+                            android:background="#88eeeeee"
+                            android:layout_below="@+id/title1"
+                            android:id="@+id/fir_line">
+                            <!--firstday-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:layout_weight="0.25"
+                                android:id="@+id/fir_1"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:layout_weight="0.25"
+                                android:id="@+id/fir_2"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:layout_weight="0.25"
+                                android:id="@+id/fir_3"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:textSize="20dp"
+                                android:id="@+id/fir_4"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/third"
+                        android:layout_below="@+id/second"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textSize="30dp"
+                            android:id="@+id/title2"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title2"
+                            android:weightSum="1"
+                            android:background="#88ffffff"
+                            android:id="@+id/sec_line">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="29dp"
+                                android:layout_weight="0.5"
+                                android:id="@+id/aqi"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:textSize="29dp"
+                                android:id="@+id/pm2.5"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                    <!--空气质量-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@+id/third"
+                        android:id="@+id/forth">
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/first"
-                            android:id="@+id/second"
-                            >
+                            android:background="#88ffffff"
+                            android:layout_below="@+id/title3">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp"
+
+                                android:id="@+id/ssd"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingBottom="10dp"
                                 android:paddingTop="10dp"
-                                android:textSize="30dp"
-                                android:id="@+id/title1"/>
-                            <!--一个星期的天气预报-->
-                            <LinearLayout
+                                android:textSize="20dp"
+                                android:layout_below="@+id/ssd"
+                                android:id="@+id/xc"/>
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:weightSum="1"
-                                android:background="#88eeeeee"
-                                android:layout_below="@+id/title1"
-                                android:id="@+id/fir_line">
-                                <!--firstday-->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="20dp"
-                                    android:layout_weight="0.25"
-                                    android:id="@+id/fir_1"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="20dp"
-                                    android:layout_weight="0.25"
-                                    android:id="@+id/fir_2"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="20dp"
-                                    android:layout_weight="0.25"
-                                    android:id="@+id/fir_3"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.25"
-                                    android:textSize="20dp"
-                                    android:id="@+id/fir_4"/>
-                            </LinearLayout>
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp"
+                                android:textSize="20dp"
+                                android:layout_below="@+id/xc"
+                                android:id="@+id/cx"/>
                         </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/third"
-                    android:layout_below="@+id/second"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textSize="30dp"
-                        android:id="@+id/title2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/title2"
-                        android:weightSum="1"
-                        android:background="#88ffffff"
-                        android:id="@+id/sec_line">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="29dp"
-                            android:layout_weight="0.5"
-                            android:id="@+id/aqi"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:textSize="29dp"
-                            android:id="@+id/pm2.5"/>
-                    </LinearLayout>
 
-                </RelativeLayout>
-                        <!--空气质量-->
-                <RelativeLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textSize="30dp"
+                            android:id="@+id/title3"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
 
-                            android:layout_below="@+id/third"
-                            android:id="@+id/forth">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="#88ffffff"
-                                android:layout_below="@+id/title3">
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="20dp"
-                                    android:paddingBottom="10dp"
-                                    android:paddingTop="10dp"
-
-                                    android:id="@+id/ssd"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingBottom="10dp"
-                                    android:paddingTop="10dp"
-                                    android:textSize="20dp"
-                                    android:layout_below="@+id/ssd"
-                                    android:id="@+id/xc"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingBottom="10dp"
-                                    android:paddingTop="10dp"
-                                    android:textSize="20dp"
-                                    android:layout_below="@+id/xc"
-                                    android:id="@+id/cx"/>
-                            </RelativeLayout>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="10dp"
-                                android:paddingTop="10dp"
-                                android:textSize="30dp"
-                                android:id="@+id/title3"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true" />
-
-                        </RelativeLayout>
+                    </RelativeLayout>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
-        </ScrollView>
+            </ScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+<!--
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listview2"/>-->
+    </android.support.v4.widget.DrawerLayout>
+
 
 
 </LinearLayout>
